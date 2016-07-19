@@ -1,0 +1,17 @@
+{
+  "name": "angularjs-demo",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Thuan (Timon) T. DINH <timon@enclave.vn>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
