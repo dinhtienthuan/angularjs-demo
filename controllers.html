@@ -6,53 +6,41 @@
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
 </head>
 <body>
-  <div class="well" ng-controller="simpleCtrl">
-    <h4>Billing Zip Code</h4>
-    <div class="form-group">
-      <input type="text" class="form-control" ng-model="zip">
+  <div class="well" ng-controller="firstCtrl">
+    <h4>First Controller</h4>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="reverseText()">Reverse</button>
+      </span>
+      <input type="text" class="form-control" ng-model="dataValue">
     </div>
-    <button class="btn btn-primary" ng-click="setAddress('billingZip', zip)">
-      Save Billing
-    </button>
   </div>
-  <div class="well" ng-controller="simpleCtrl">
-    <h4>Shipping Zip Code</h4>
-    <div class="form-group">
-      <input type="text" class="form-control" ng-model="zip">
+
+  <div class="well" ng-controller="secondCtrl">
+    <h4>Second Controller</h4>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="changeCase()">Case</button>
+      </span>
+      <input type="text" class="form-control" ng-model="dataValue">
     </div>
-    <button class="btn btn-primary" ng-click="copyAddress()">
-      Use Billing
-    </button>
-    <button class="btn btn-primary" ng-click="setAddress('shippingZip', zip)">
-      Save Shipping
-    </button>
   </div>
+
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script type="text/javascript">
     angular.module("exampleApp", [])
-      .service("ZipCodes", function($rootScope) {
-        return {
-          setZipCode: function(type, zip) {
-            this[type] = zip;
-            $rootScope.$broadcast("zipCodeUpdated", {
-              type: type,
-              zipCode: zip
-            });
-          }
+      .controller("firstCtrl", function($scope) {
+        $scope.dataValue = "Hello, Adam";
+
+        $scope.reverseText = function() {
+          $scope.dataValue = $scope.dataValue.split("").reverse().join("");
         };
       })
-      .controller("simpleCtrl", function($scope, ZipCodes) {
-        $scope.$on("zipCodeUpdated", function(event, args) {
-          $scope[args.type] = args.zipCode;
-        });
+      .controller("secondCtrl", function($scope) {
+        $scope.dataValue = "Hello, Timon";
 
-        $scope.setAddress = function(type, zip) {
-          ZipCodes.setZipCode(type, zip);
-          console.log("Type: " + type + " " + zip);
-        };
-
-        $scope.copyAddress = function() {
-          $scope.zip = $scope.billingZip;
+        $scope.changeCase = function() {
+          $scope.dataValue = $scope.dataValue.toUpperCase();
         };
       });
   </script>
