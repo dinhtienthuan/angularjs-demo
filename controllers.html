@@ -4,44 +4,48 @@
   <title>Controllers</title>
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/sunny/jquery-ui.min.css">
 </head>
 <body>
-  <div class="well" ng-controller="firstCtrl">
-    <h4>First Controller</h4>
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="reverseText()">Reverse</button>
-      </span>
-      <input type="text" class="form-control" ng-model="dataValue">
+  <div id="angularRegion" class="well" ng-controller="simpleCtrl">
+    <h4>AngularJS</h4>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="buttonEnabled">Enable Button</input>
+      </label>
     </div>
+    Click counter: {{clickCounter}}
   </div>
-
-  <div class="well" ng-controller="secondCtrl">
-    <h4>Second Controller</h4>
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="changeCase()">Case</button>
-      </span>
-      <input type="text" class="form-control" ng-model="dataValue">
-    </div>
+  <div id="jqui" class="well">
+    <h4>jQuery UI</h4>
+    <button>Click Me!</button>
   </div>
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js">
+  </script>
   <script type="text/javascript">
+    $(document).ready(function() {
+      $("#jqui button").button().click(function(e) {
+        angular.element(angularRegion).scope().$apply("handleClick()");
+      });
+    });
+
     angular.module("exampleApp", [])
-      .controller("firstCtrl", function($scope) {
-        $scope.dataValue = "Hello, Adam";
+      .controller("simpleCtrl", function($scope) {
+        $scope.buttonEnabled = true;
+        $scope.clickCounter = 0;
 
-        $scope.reverseText = function() {
-          $scope.dataValue = $scope.dataValue.split("").reverse().join("");
+        $scope.handleClick = function() {
+          $scope.clickCounter++;
         };
-      })
-      .controller("secondCtrl", function($scope) {
-        $scope.dataValue = "Hello, Timon";
 
-        $scope.changeCase = function() {
-          $scope.dataValue = $scope.dataValue.toUpperCase();
-        };
+        $scope.$watch("buttonEnabled", function(newValue) {
+          $("#jqui button").button({
+            disabled: !newValue
+          });
+        });
       });
   </script>
 </body>
